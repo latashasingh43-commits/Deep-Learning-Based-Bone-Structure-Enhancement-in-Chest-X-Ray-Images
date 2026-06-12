@@ -19,7 +19,7 @@
 
 Chest X-rays contain overlapping anatomical structures — soft tissue, organs, and bone — making it difficult to isolate skeletal features for analysis. This project tackles that problem by training a **U-Net model** to predict the bone layer directly from X-ray images, using **synthetically generated Digitally Reconstructed Radiographs (DRR)** as paired ground truth.
 
-By learning to enhance and separate bone structures, this approach can support downstream tasks such as **fracture detection, bone density analysis, and orthopedic diagnostics**.
+By learning to enhance and separate bone structures, this approach can support downstream tasks such as **fracture detection, bone density analysis, and orthopedic diagnostics** — areas where isolating skeletal detail from soft tissue noise is often the first and hardest step.
 
 **Dataset:** [Digitally Reconstructed Radiographs (DRR) - Bones](https://www.kaggle.com/raddar/digitally-reconstructed-radiographs-drr-bones)
 
@@ -35,7 +35,31 @@ By learning to enhance and separate bone structures, this approach can support d
 | ⚡ Framework | TensorFlow / Keras |
 | 📐 Training | 200 epochs with learning rate scheduling |
 
-The model is trained using a **VGG19-based perceptual loss**, which compares high-level feature representations rather than raw pixel values — helping the network produce sharper, more anatomically realistic bone predictions instead of blurry averages.
+The model is trained using a **VGG19-based perceptual loss**, which compares high-level feature representations rather than raw pixel values — helping the network produce sharper, more anatomically realistic bone predictions instead of blurry pixel-averaged outputs.
+
+### Pipeline Overview
+
+```
+Chest X-Ray Input
+       │
+       ▼
+┌─────────────────┐
+│   U-Net Encoder  │  ── downsampling, feature extraction
+└─────────────────┘
+       │
+       ▼
+┌─────────────────┐
+│   U-Net Decoder  │  ── upsampling, skip connections
+└─────────────────┘
+       │
+       ▼
+ Predicted Bone Layer
+       │
+       ▼
+┌─────────────────────┐
+│ VGG19 Perceptual Loss │ ── compares features vs. ground truth DRR
+└─────────────────────┘
+```
 
 ---
 
@@ -47,12 +71,26 @@ The model is trained using a **VGG19-based perceptual loss**, which compares hig
 
 ## ✨ Key Features
 
-- 🔧 **End-to-end pipeline** — from raw DRR dataset extraction to trained model
+- 🔧 **End-to-end pipeline** — from raw DRR dataset extraction to a trained model
 - 🧬 **U-Net architecture** for pixel-wise bone structure prediction
 - 📈 **Perceptual loss (VGG19)** for visually realistic, structure-aware outputs
 - 🖼️ **Visual comparisons** of predicted bone layers vs. ground truth DRRs
 - 📊 **Quantitative evaluation** using SSIM and PSNR metrics
-- 🚀 Reproducible training pipeline with checkpointing and LR scheduling
+- 🚀 Reproducible training pipeline with checkpointing and learning-rate scheduling
+
+---
+
+## 🖼️ Sample Results
+
+<div align="center">
+
+| Input X-Ray | Predicted Bone Layer | Ground Truth DRR |
+|:---:|:---:|:---:|
+| *add image* | *add image* | *add image* |
+
+</div>
+
+> 💡 Add sample output images from your notebook here (drag-and-drop into a `results/` folder via GitHub's "Add file → Upload files", then reference them like `![](results/sample1.png)`).
 
 ---
 
@@ -60,12 +98,12 @@ The model is trained using a **VGG19-based perceptual loss**, which compares hig
 
 Final evaluation on the test set:
 
-| Metric | Score |
-|---|---|
-| 🎯 Average SSIM | **0.3634** |
-| 📡 Average PSNR | **19.96 dB** |
+| Metric | Score | What it means |
+|---|---|---|
+| 🎯 Average SSIM | **0.3634** | Structural similarity between predicted and ground-truth bone layers |
+| 📡 Average PSNR | **19.96 dB** | Pixel-level reconstruction quality |
 
-> 📌 The model was trained for 200 epochs using perceptual loss, with validation loss converging to ~2.82. Side-by-side visualizations of predicted vs. ground-truth bone layers are available in the notebook — open via the Colab or NBViewer badges above.
+> 📌 The model was trained for 200 epochs using perceptual loss, with validation loss converging to ~2.82. Full training curves and side-by-side visualizations of predicted vs. ground-truth bone layers are available in the notebook — open via the Colab or NBViewer badges above.
 
 ---
 
