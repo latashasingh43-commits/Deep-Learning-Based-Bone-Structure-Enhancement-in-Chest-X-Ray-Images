@@ -6,7 +6,6 @@
 *A deep learning pipeline to predict and isolate bone structures from chest X-ray images using synthetic CT-DRR data*
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/latashasingh43-commits/Deep-Learning-Based-Bone-Structure-Enhancement-in-Chest-X-Ray-Images/blob/main/bone-drr-unet.ipynb)
-[![Open in NBViewer](https://img.shields.io/badge/Open-NBViewer-orange?logo=jupyter)](https://nbviewer.org/github/latashasingh43-commits/Deep-Learning-Based-Bone-Structure-Enhancement-in-Chest-X-Ray-Images/blob/main/bone-drr-unet.ipynb)
 ![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python&logoColor=white)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?logo=tensorflow&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Complete-brightgreen)
@@ -103,7 +102,6 @@ Final evaluation on the test set:
 | 🎯 Average SSIM | **0.3634** | Structural similarity between predicted and ground-truth bone layers |
 | 📡 Average PSNR | **19.96 dB** | Pixel-level reconstruction quality |
 
-> 📌 The model was trained for 200 epochs using perceptual loss, with validation loss converging to ~2.82. Full training curves and side-by-side visualizations of predicted vs. ground-truth bone layers are available in the notebook — open via the Colab or NBViewer badges above.
 
 ---
 
